@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>chat</title>
+
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: Arial;
+      padding: 20px;
+    }
+
+    #chat {
+      height: 320px;
+      overflow-y: auto;
+      border: 1px solid white;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 70%;
+      padding: 10px;
+      border: none;
+    }
+
+    button {
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>talk</h2>
+
+<div id="chat"></div>
+
+<input id="msg" placeholder="say something">
+<button onclick="send()">send</button>
+
+<script>
+let chat = document.getElementById("chat")
+let count = 0
+
+function clean(text) {
+  return text
+    .toLowerCase()
+    .replace(/p/g, "")
+    .replace(/[.,()\\[\\]]/g, "")
+}
+
+function reply(user) {
+  let t = user.toLowerCase()
+
+  let names = ["mahek", "mahek joshi"]
+  let name = names[Math.floor(Math.random() * names.length)]
+
+  if(t.includes("hi") || t.includes("hello")) {
+    return "nah fr " + name + " thats how u start"
+  }
+
+  if(t.includes("what") || t.includes("why")) {
+    return name + " u asking too much for someone who dont get answers"
+  }
+
+  if(t.includes("no")) {
+    return name + " saying no like it matters"
+  }
+
+  if(t.includes("yes")) {
+    return "confidence with zero reason " + name
+  }
+
+  if(t.length < 4) {
+    return name + " thats it"
+  }
+
+  let lines = [
+    name + " u really said that",
+    "nah fr " + name + " u serious rn",
+    name + " say it again maybe it makes sense",
+    "u thought that was smart " + name,
+    name + " imagine typing that and sending it",
+    "this is getting worse every message " + name
+  ]
+
+  return lines[Math.floor(Math.random() * lines.length)]
+}
+
+function send() {
+  let input = document.getElementById("msg")
+  let text = input.value
+
+  if(text.trim() === "") return
+
+  chat.innerHTML += "<p><b>you</b> " + text + "</p>"
+  input.value = ""
+
+  count++
+
+  // tying status
+  let tying = document.createElement("p")
+  let tyingTexts = ["tying...", "wait...", "thinking... but worse"]
+  tying.innerHTML = "<b>bot</b> " + tyingTexts[Math.floor(Math.random()*tyingTexts.length)]
+  chat.appendChild(tying)
+  chat.scrollTop = chat.scrollHeight
+
+  // delay based on message
+  let delay = 800 + (text.length * 50)
+
+  setTimeout(() => {
+    tying.remove()
+
+    if(count < 10) {
+      let r = reply(text)
+
+      if(count > 6) {
+        r = r.toUpperCase()
+      }
+
+      chat.innerHTML += "<p><b>bot</b> " + clean(r) + "</p>"
+    } else {
+      chat.innerHTML += "<p><b>bot</b> aight enough mahek</p>"
+      chat.innerHTML += "<p><b>bot</b> u stayed</p>"
+      chat.innerHTML += "<p><b>bot</b> happy birthday mahek joshi</p>"
+      chat.innerHTML += "<p><b>bot</b> dont overthink it</p>"
+    }
+
+    chat.scrollTop = chat.scrollHeight
+  }, delay)
+}
+</script>
+
+</body>
+</html>
