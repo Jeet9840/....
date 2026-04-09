@@ -56,15 +56,18 @@ function clean(text) {
 function reply(user) {
   let t = user.toLowerCase()
 
-  let names = ["mahek", "mahek joshi"]
+  let names = ["mewhek", "Mahek "]
   let name = names[Math.floor(Math.random() * names.length)]
 
+  let useNah = Math.random() > 0.5
+  let useFr = Math.random() > 0.5
+
   if(t.includes("hi") || t.includes("hello")) {
-    return "nah fr " + name + " thats how u start"
+    return (useNah ? "nah " : "") + name + " thats how u start"
   }
 
   if(t.includes("what") || t.includes("why")) {
-    return name + " u asking too much for someone who dont get answers"
+    return name + " u asking too much" + (useFr ? " fr" : "")
   }
 
   if(t.includes("no")) {
@@ -81,14 +84,20 @@ function reply(user) {
 
   let lines = [
     name + " u really said that",
-    "nah fr " + name + " u serious rn",
+    name + " u serious rn" + (useFr ? " fr" : ""),
     name + " say it again maybe it makes sense",
     "u thought that was smart " + name,
     name + " imagine typing that and sending it",
     "this is getting worse every message " + name
   ]
 
-  return lines[Math.floor(Math.random() * lines.length)]
+  let line = lines[Math.floor(Math.random() * lines.length)]
+
+  if(useNah && Math.random() > 0.6) {
+    line = "nah " + line
+  }
+
+  return line
 }
 
 function send() {
